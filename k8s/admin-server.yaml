@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-server
+  namespace: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-server
+  template:
+    metadata:
+      labels:
+        app: admin-server
+    spec:
+      containers:
+        - name: admin-server
+          image: spring-petclinic-microservices-main-admin-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8887
+          env:
+            - name: SERVER_PORT
+              value: "8887"
+            - name: CONFIG_SERVER_URL
+              value: "http://config-server:8888/"
+            - name: SPRING_CLOUD_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://discovery-server:8761/eureka/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-server
+  namespace: petclinic
+spec:
+  selector:
+    app: admin-server
+  ports:
+    - port: 8887
+      targetPort: 8887

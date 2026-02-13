@@ -1,0 +1,67 @@
+version: "3.8"
+
+services:
+
+
+  api-gateway:
+    build: ./spring-petclinic-api-gateway
+    ports:
+      - "8888:8888"
+    depends_on:
+      - discovery-server
+      - config-server
+
+  admin-server:
+    build: ./spring-petclinic-admin-server
+    ports:
+      - "8887:8887"
+    depends_on:
+      - discovery-server
+      - config-server
+
+  config-server:
+    build: ./spring-petclinic-config-server
+    ports:
+      - "8889:8889"
+
+  discovery-server:
+    build: ./spring-petclinic-discovery-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+
+  customers-service:
+    build: ./spring-petclinic-customers-service
+    ports:
+      - "8890:8890"
+    depends_on:
+      - discovery-server
+      - config-server
+
+  genai-service:
+    build: ./spring-petclinic-genai-service
+    ports:
+      - "8891:8891"
+    depends_on:
+      - discovery-server
+      - config-server
+  
+  visits-service:
+    build: ./spring-petclinic-visits-service
+    ports:
+      - "8892:8892"
+    depends_on:
+      - discovery-server
+      - config-server
+
+  vets-service:
+    build: ./spring-petclinic-vets-service
+    ports:
+      - "8893:8893"
+    depends_on:
+      - discovery-server
+      - config-server
+
+
+      

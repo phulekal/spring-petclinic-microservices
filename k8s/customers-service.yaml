@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customers-service
+  namespace: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customers-service
+  template:
+    metadata:
+      labels:
+        app: customers-service
+    spec:
+      containers:
+        - name: customers-service
+          image: spring-petclinic-microservices-main-customers-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8890
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customers-service
+  namespace: petclinic
+spec:
+  selector:
+    app: customers-service
+  ports:
+    - port: 8890
+      targetPort: 8890
