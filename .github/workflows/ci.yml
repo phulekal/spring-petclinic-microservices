@@ -16,6 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+         distribution: temurin
+         java-version: 17
+
+      - name: Build microservice JAR
+        run: |
+         cd spring-petclinic-${{ matrix.service }}
+         ./mvnw clean package -DskipTests
+
       - name: Set image tag
         id: vars
         run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
