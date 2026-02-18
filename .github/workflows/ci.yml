@@ -52,8 +52,8 @@ jobs:
 
       - name: Commit Helm chart changes
         run: 
-          git config --global user.email "phulekal@github.com"
-          git config --global user.name "phulekalt"
-          git add helm-chart/values.yaml
-          git commit -m "Update image tag for ${{ matrix.service }}"
-          git push
+          git config --global user.email "phulekal@github.com" \
+          && git config --global user.name "phulekalt" \
+          && git add spring-petclinic/values.yaml \
+          && git commit -m "Update image tag for ${{ matrix.service }}" \
+          && git push
