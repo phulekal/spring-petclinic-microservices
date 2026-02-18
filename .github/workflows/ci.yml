@@ -24,8 +24,7 @@ jobs:
 
       - name: Build microservice JAR
         run: |
-         cd spring-petclinic-${{ matrix.service }}
-         ./mvnw clean package -DskipTests
+         ./mvnw -pl spring-petclinic-${{ matrix.service }} clean package -DskipTests
 
       - name: Set image tag
         id: vars
