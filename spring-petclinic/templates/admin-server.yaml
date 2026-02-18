@@ -15,13 +15,13 @@ spec:
     spec:
       containers:
         - name: admin-server
-          image: {{ .Values.adminServer.image }}:{{ .Values.adminServer.tag }}
+          image: {{ .Values.admin-server.image }}:{{ .Values.admin-server.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .Values.adminServer.port }}
+            - containerPort: {{ .Values.admin-server.port }}
           env:
             - name: SERVER_PORT
-              value: "{{ .Values.adminServer.port }}"
+              value: "{{ .Values.admin-server.port }}"
             - name: CONFIG_SERVER_URL
               value: "http://config-server:8888/"
             - name: SPRING_CLOUD_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
@@ -36,5 +36,5 @@ spec:
   selector:
     app: admin-server
   ports:
-    - port: {{ .Values.adminServer.port }}
-      targetPort: {{ .Values.adminServer.port }}
+    - port: {{ .Values.admin-server.port }}
+      targetPort: {{ .Values.admin-server.port }}

@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: vets-service
-          image: {{ .Values.vetsService.image }}:{{ .Values.vetsService.tag }}
+          image: {{ .Values.vets-service.image }}:{{ .Values.vets-service.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .Values.vetsService.port }}
+            - containerPort: {{ .Values.vets-service.port }}
           env:
           - name: CONFIG_SERVER_URL
             value: "http://config-server:8888/"
@@ -32,5 +32,5 @@ spec:
   selector:
     app: vets-service
   ports:
-    - port: {{ .Values.vetsService.port }}
-      targetPort: {{ .Values.vetsService.port }}
+    - port: {{ .Values.vets-service.port }}
+      targetPort: {{ .Values.vets-service.port }}

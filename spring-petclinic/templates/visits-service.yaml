@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: visits-service
-          image: {{ .Values.visitsService.image }}:{{ .Values.visitsService.tag }}
+          image: {{ .Values.visits-service.image }}:{{ .Values.visits-service.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .Values.visitsService.port }}
+            - containerPort: {{ .Values.visits-service.port }}
           env:
            - name: CONFIG_SERVER_URL
              value: "http://config-server:8888/"
@@ -32,5 +32,5 @@ spec:
   selector:
     app: visits-service
   ports:
-    - port: {{ .Values.visitsService.port }}
-      targetPort: {{ .Values.visitsService.port }}
+    - port: {{ .Values.visits-service.port }}
+      targetPort: {{ .Values.visits-service.port }}

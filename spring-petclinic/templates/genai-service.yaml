@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: genai-service
-          image: {{ .Values.genaiService.image }}:{{ .Values.genaiService.tag }}
+          image: {{ .Values.genai-service.image }}:{{ .Values.genai-service.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: {{ .Values.genaiService.port }}
+            - containerPort: {{ .Values.genai-service.port }}
           env:
            - name: CONFIG_SERVER_URL
              value: "http://config-server:8888/"
@@ -33,5 +33,5 @@ spec:
   selector:
     app: genai-service
   ports:
-    - port: {{ .Values.genaiService.port }}
-      targetPort: {{ .Values.genaiService.port }}
+    - port: {{ .Values.genai-service.port }}
+      targetPort: {{ .Values.genai-service.port }}
