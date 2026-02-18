@@ -48,10 +48,10 @@ jobs:
 
       - name: Update Helm chart image tag
         run: |
-          yq e -i ".${{ matrix.service }}.tag=\"${{ steps.vars.outputs.TAG }}\"" helm-chart/values.yaml
+          yq e -i ".${{ matrix.service }}.tag=\"${{ steps.vars.outputs.TAG }}\"" spring-petclinic/values.yaml
 
       - name: Commit Helm chart changes
-        run: |
+        run: 
           git config --global user.email "phulekal@github.com"
           git config --global user.name "phulekalt"
           git add helm-chart/values.yaml
