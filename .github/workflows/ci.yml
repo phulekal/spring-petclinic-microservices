@@ -55,5 +55,9 @@ jobs:
           git config --global user.email "phulekal@github.com"
           git config --global user.name "phulekalt"
           git add spring-petclinic/values.yaml
+          if git diff --cached --quiet; then
+          echo "No changes to commit"
+           else
           git commit -m "Update image tag for ${{ matrix.service }}"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/phulekal/spring-petclinic-microservices.git HEAD:main
+          fi
