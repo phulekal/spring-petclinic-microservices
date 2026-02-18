@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: genai-service
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -15,19 +15,23 @@ spec:
     spec:
       containers:
         - name: genai-service
-          image: spring-petclinic-microservices-main-genai-service:latest
+          image: {{ .Values.genaiService.image }}:{{ .Values.genaiService.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8891
+            - containerPort: {{ .Values.genaiService.port }}
+          env:
+           - name: CONFIG_SERVER_URL
+             value: "http://config-server:8888/"
+       
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: genai-service
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     app: genai-service
   ports:
-    - port: 8891
-      targetPort: 8891
+    - port: {{ .Values.genaiService.port }}
+      targetPort: {{ .Values.genaiService.port }}

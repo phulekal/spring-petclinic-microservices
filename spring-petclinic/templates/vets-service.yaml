@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vets-service
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -15,19 +15,22 @@ spec:
     spec:
       containers:
         - name: vets-service
-          image: spring-petclinic-microservices-main-vets-service:latest
+          image: {{ .Values.vetsService.image }}:{{ .Values.vetsService.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8893
+            - containerPort: {{ .Values.vetsService.port }}
+          env:
+          - name: CONFIG_SERVER_URL
+            value: "http://config-server:8888/"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: vets-service
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     app: vets-service
   ports:
-    - port: 8893
-      targetPort: 8893
+    - port: {{ .Values.vetsService.port }}
+      targetPort: {{ .Values.vetsService.port }}

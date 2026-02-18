@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: discovery-server
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -15,13 +15,13 @@ spec:
     spec:
       containers:
         - name: discovery-server
-          image: spring-petclinic-microservices-main-discovery-server:latest
+          image: {{ .Values.discoveryServer.image }}:{{ .Values.discoveryServer.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8761
+            - containerPort: {{ .Values.discoveryServer.port }}
           env:
           - name: SERVER_PORT
-            value: "8761"
+            value: "{{ .Values.discoveryServer.port }}"
           - name: CONFIG_SERVER_URL
             value: "http://config-server:8888/"
           - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
@@ -40,5 +40,5 @@ spec:
   selector:
     app: discovery-server
   ports:
-    - port: 8761
-      targetPort: 8761
+    - port: {{ .Values.discoveryServer.port }}
+      targetPort: {{ .Values.discoveryServer.port }}

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-gateway
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -29,13 +29,13 @@ spec:
               echo "Eureka is up!"
       containers:
         - name: api-gateway
-          image: spring-petclinic-microservices-main-api-gateway:latest
+          image: {{ .Values.apiGateway.image }}:{{ .Values.apiGateway.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8889
+            - containerPort: {{ .Values.apiGateway.port }}
           env:
             - name: SERVER_PORT
-              value: "8889"
+              value: "{{ .Values.apiGateway.port }}"
             - name: CONFIG_SERVER_URL
               value: "http://config-server:8888/"
             - name: SPRING_CLOUD_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
@@ -43,7 +43,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8889
+              port: {{ .Values.apiGateway.port }}
             initialDelaySeconds: 10
             periodSeconds: 5
 ---
@@ -56,5 +56,5 @@ spec:
   selector:
     app: api-gateway
   ports:
-    - port: 8889
-      targetPort: 8889
+    - port: {{ .Values.apiGateway.port }}
+      targetPort: {{ .Values.apiGateway.port }}

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: config-server
-  namespace: petclinic
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
@@ -15,10 +15,10 @@ spec:
     spec:
       containers:
         - name: config-server
-          image: spring-petclinic-microservices-main-config-server:latest
+          image: {{ .Values.configServer.image }}:{{ .Values.configServer.tag }}
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8888
+            - containerPort: {{ .Values.configServer.port }}
 ---
 apiVersion: v1
 kind: Service
@@ -29,5 +29,5 @@ spec:
   selector:
     app: config-server
   ports:
-    - port: 8888
-      targetPort: 8888
+    - port: {{ .Values.configServer.port }}
+      targetPort: {{ .Values.configServer.port }}

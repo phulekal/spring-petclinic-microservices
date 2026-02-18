@@ -1,0 +1,47 @@
+name: CI/CD - Spring Petclinic
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [configServer, discoveryServer, adminServer, apiGateway, customersService, genaiService, vetsService, visitsService]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set image tag
+        id: vars
+        run: echo "TAG=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ steps.vars.outputs.TAG }} ./services/${{ matrix.service }}
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ steps.vars.outputs.TAG }}
+
+      - name: Update Helm chart image tag
+        run: |
+          yq e -i ".${{ matrix.service }}.tag=\"${{ steps.vars.outputs.TAG }}\"" helm-chart/values.yaml
+
+      - name: Commit Helm chart changes
+        run: |
+          git config --global user.email "phulekal@github.com"
+          git config --global user.name "phulekalt"
+          git add helm-chart/values.yaml
+          git commit -m "Update image tag for ${{ matrix.service }}"
+          git push
