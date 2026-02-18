@@ -1,53 +1,41 @@
 namespace: petclinic
-
 config-server:
   image: artech1/config-server
-  tag: latest
+  tag: 42988a4
   replicas: 1
   port: 8888
-
 discovery-server:
   image: artech1/discovery-server
   tag: latest
-  replicas: 1 
+  replicas: 1
   port: 8761
-
 admin-server:
   image: artech1/admin-server
   tag: latest
   replicas: 1
   port: 8887
-
 api-gateway:
   image: artech1/api-gateway
   tag: latest
   replicas: 1
   port: 8889
-
 customers-service:
   image: artech1/customers
   tag: latest
   replicas: 1
   port: 8890
-
-
 genai-service:
   image: artech1/genai
   tag: latest
   replicas: 1
   port: 8892
-  
 vets-service:
   image: artech1/vets
   tag: latest
   replicas: 1
   port: 8893
-
 visits-service:
   image: artech1/visits
   tag: latest
   replicas: 1
   port: 8894
-
-
-
