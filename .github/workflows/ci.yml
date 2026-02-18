@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [configServer, discoveryServer, adminServer, apiGateway, customersService, genaiService, vetsService, visitsService]
+        service: [configserver, discoveryserver, adminserver, apigateway, customersservice, genaiservice, vetsservice, visitsservice]
 
     steps:
       - name: Checkout code
