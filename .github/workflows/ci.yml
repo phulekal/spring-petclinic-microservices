@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ steps.vars.outputs.TAG }} ./services/spring-petclinic-${{ matrix.service }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:${{ steps.vars.outputs.TAG }} ./spring-petclinic-${{ matrix.service }}
 
       - name: Push Docker image
         run: |
